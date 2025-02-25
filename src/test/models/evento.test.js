@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import {
   // eslint-disable-next-line no-unused-vars
-  describe, expect, it, jest,
+  describe, expect, it,
 } from '@jest/globals';
 import Evento from '../../models/evento.js';
 

@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-expressions */
+/* eslint-disable linebreak-style */
 /* eslint-disable camelcase */
 /* eslint-disable linebreak-style */
-/* eslint-disable no-unused-vars */
-// import db from '../db/dbconfig.js';
-
 class Evento {
   constructor({
     id,
@@ -24,7 +21,7 @@ class Evento {
   }
 
   static async pegarEventos() {
-    return {
+    return [{
       id: 1,
       nome: 'lançamento',
       descricao: 'desc',
@@ -32,7 +29,7 @@ class Evento {
       autor_id: 1,
       created_at: '2023-01-01 07:00:00',
       updated_at: '2023-01-01 07:00:00',
-    };
+    }];
   }
 }
 
