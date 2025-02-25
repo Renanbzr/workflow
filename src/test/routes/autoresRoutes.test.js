@@ -52,6 +52,7 @@ describe('GET em /autores', () => {
         done();
       });
   });
+  
 
   it('Deve retornar uma lista de Livros', (done) => {
     const autorId = 1;
@@ -65,8 +66,39 @@ describe('GET em /autores', () => {
         expect(res.body.livros).to.be.an('array')
         done();
       });
-  };
+  }
+)
+
+ it('Deve retornar uma lista de Livros vazia', (done) => {
+  const autorId = 4;
+  chai.request(app)
+    .get(`/autores/${autorId}/livros`)
+    .set('Accept', 'application/json')
+    .end((err, res) => {
+      expect(res.status).to.equal(200);
+      expect(res.body).to.have.property('autor');
+      expect(res.body).to.have.property('livros');
+      expect(res.body.livros).to.be.an('array').that.is.empty;
+      done();
+    });
+}
 );
+
+it('Não deve retornar uma lista de livros com autor inválido', (done) => {
+  const autorId = 999;
+  chai.request(app)
+    .get(`/autores/${autorId}/livros`)
+    .set('Accept', 'application/json')
+    .end((err, res) => {
+      expect(res.status).to.equal(404);
+      expect(res.body).to.have.property('message')
+        .eql(`id ${autorId} não foi encontrado`)
+      done();
+    });
+}
+);
+
+});
 
 describe('POST em /autores', () => {
   it('Deve criar umnovo autor', (done) => {
@@ -81,7 +113,7 @@ describe('POST em /autores', () => {
       .end((err, res) => {
         expect(res.status).to.equal(201);
         expect(res.body).to.hav.property('message')
-          .eql(autor criado');
+          .eql(autor criado');  
         dne();
      });
  });
@@ -100,6 +132,7 @@ describe('POST em /autores', () => {
      });
   };
 );
+});
 
 describe('PUT em /autores', () => {
   it('Deve atualizar u autor', (done) => {
