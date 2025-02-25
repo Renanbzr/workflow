@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable no-unused-expressions */
 import { after } from 'mocha';
 import chai from 'chai';
@@ -52,7 +53,6 @@ describe('GET em /autores', () => {
         done();
       });
   });
-  
 
   it('Deve retornar uma lista de Livros', (done) => {
     const autorId = 1;
@@ -61,43 +61,39 @@ describe('GET em /autores', () => {
       .set('Accept', 'application/json')
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body).to.have.property('autor')
-        expect(res.body).to.have.property('livros')
-        expect(res.body.livros).to.be.an('array')
+        expect(res.body).to.have.property('autor');
+        expect(res.body).to.have.property('livros');
+        expect(res.body.livros).to.be.an('array');
         done();
       });
-  }
-)
+  });
 
- it('Deve retornar uma lista de Livros vazia', (done) => {
-  const autorId = 4;
-  chai.request(app)
-    .get(`/autores/${autorId}/livros`)
-    .set('Accept', 'application/json')
-    .end((err, res) => {
-      expect(res.status).to.equal(200);
-      expect(res.body).to.have.property('autor');
-      expect(res.body).to.have.property('livros');
-      expect(res.body.livros).to.be.an('array').that.is.empty;
-      done();
-    });
-}
-);
+  it('Deve retornar uma lista de Livros vazia', (done) => {
+    const autorId = 4;
+    chai.request(app)
+      .get(`/autores/${autorId}/livros`)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body).to.have.property('autor');
+        expect(res.body).to.have.property('livros');
+        expect(res.body.livros).to.be.an('array').that.is.empty;
+        done();
+      });
+  });
 
-it('Não deve retornar uma lista de livros com autor inválido', (done) => {
-  const autorId = 999;
-  chai.request(app)
-    .get(`/autores/${autorId}/livros`)
-    .set('Accept', 'application/json')
-    .end((err, res) => {
-      expect(res.status).to.equal(404);
-      expect(res.body).to.have.property('message')
-        .eql(`id ${autorId} não foi encontrado`)
-      done();
-    });
-}
-);
-
+  it('Não deve retornar uma lista de livros com autor inválido', (done) => {
+    const autorId = 999;
+    chai.request(app)
+      .get(`/autores/${autorId}/livros`)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        expect(res.body).to.have.property('message')
+          .eql(`id ${autorId} não foi encontrado`);
+        done();
+      });
+  });
 });
 
 describe('POST em /autores', () => {
@@ -108,84 +104,83 @@ describe('POST em /autores', () => {
     };
     chai.request(app)
       .post('/autores')
-      .set('Accept, 'application/json')
+      .set('Accept', 'application/json')
       .send(autor)
       .end((err, res) => {
         expect(res.status).to.equal(201);
         expect(res.body).to.hav.property('message')
-          .eql(autor criado');  
-        dne();
-     });
- });
+          .eql('autor criado');
+        done();
+      });
+  });
 
   it('Não deve criar m autor ao receber body vazio', (done) => {
     const autor = {};
     chai.request(app)
       .post('/autores')
-      .set('Accept, 'application/json')
+      .set('Accept', 'application/json')
       .send(autor)
       .end((err, res) => {
         expect(res.status).to.equal(400);
-        expect(res.body).to.have.property('mssage')
-          .eql(corpo da requisição vazio');
-        dne();
-     });
-  };
-);
+        expect(res.body).to.have.property('message')
+          .eql('corpo da requisição vazio');
+        done();
+      });
+  });
 });
 
 describe('PUT em /autores', () => {
   it('Deve atualizar u autor', (done) => {
     const idAutor = 2;
-    const autorAtualizado= {
+    const autorAtualizado = {
       nome: 'Outro Nome',
       acionalidade: 'Tangamandápio',
     };
     chai.request(app)
       .put(`/autores/${idAutor}`)
       .set('Accept', 'appliction/json')
-      .send(autorAtualizad)
+      .send(autorAtualizado)
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body.content[0]).t.include({
           nome: autorAtualizado.nome,
           ncionalidade: autorAtualizado.nacionalidade,
         });
-        dne();
-     });
- });
+        done();
+      });
+  });
+});
 
-  it('Não deve atualizarum autor com id inválido', (done) => {
-    const idAutor = 'A';
-    const autorAtualizado = {
-      ame: 'Atualizando Novamente',
-    };
-    chai.request(app)
-      .put(`/autores/${idAutor}`)
-      .set('Accept', 'appliction/json')
-      .send(autorAtualizad)
-      .end((err, res) => {
-        expect(res.status).to.equal(404);
-        expect(res.body).to.have.property('messge')
-          .eql(id ${idAutor} não encontrado`);
-        dne();
-     });
+it('Não deve atualizarum autor com id inválido', (done) => {
+  const idAutor = 'A';
+  const autorAtualizado = {
+    ame: 'Atualizando Novamente',
   };
-);
+  chai.request(app)
+    .put(`/autores/${idAutor}`)
+    .set('Accept', 'appliction/json')
+    .send(autorAtualizado)
+    .end((err, res) => {
+      expect(res.status).to.equal(404);
+      expect(res.body).to.have.property('messge')
+        .eql(`id ${idAutor} não encontrado`);
+      done();
+    });
+});
 
 describe('DELETE em /autores', () => {
   it('Deve deletar um utor', (done) => {
-    const idAutor = 4
+    const idAutor = 4;
     chai.request(app)
       .delete(`/autores/${idAutor}`)
       .set('Accept', 'applcation/json')
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body).to.have.roperty('message')
-          .eql(autor excluído');
-        dne();
-     });
- });
+          .eql('autor excluído');
+        done();
+      });
+  });
 
   it('Não deve deletar u autor com id inválido', (done) => {
     const idAutor = '';
@@ -195,8 +190,8 @@ describe('DELETE em /autores', () => {
       .end((err, res) => {
         expect(res.status).to.equal(404);
         expect(res.body).to.have.property('message')
-          .eql(Autor com id ${idAutor} não encontrado`);
-        dne();
-     });
-  };
+          .eql(`Autor com id ${idAutor} não encontrado`);
+        done();
+      });
+  });
 });
